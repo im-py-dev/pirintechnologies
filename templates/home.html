@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        table {
+            width: 80%;
+            margin-left: 10px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to our website!</h1>
+    {% if username %}
+        <p>Hello, {{ username }}!</p>
+    {% else %}
+        <p>You are not logged in.</p>
+    {% endif %}
+    
+    <!-- Add a button for creating a new invoice -->
+    <a href="{% url 'create_invoice' %}">Create New Invoice</a>
+    
+    <!-- Display user's existing invoices in a table -->
+    {% if invoices %}
+        <h2>Your Invoices</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Amount</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Paid</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.id }}</td>
+                    <td>${{ invoice.amount|floatformat:2 }}</td>
+
+                    <td>{{ invoice.start_date|date:"F j, Y"|default:"/" }}</td>
+                    <td>{{ invoice.end_date|date:"F j, Y"|default:"/" }}</td>
+
+                    <td>{% if invoice.paid %}Paid{% else %}Not Paid{% endif %}</td>
+                    <td>
+                        <a href="{% url 'download_pdf' invoice.id %}"><button>Download PDF</button></a>
+
+                        <a href="{% url 'view_invoice' invoice.id %}"><button>View Invoice</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You don't have any invoices yet.</p>
+    {% endif %}
+</body>
+</html>
