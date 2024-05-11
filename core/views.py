@@ -8,10 +8,12 @@ from django.db.models import Q
 from django.utils import timezone
 
 from .models import Invoice, Product, Payment
-
+from .utils import payment_required
 from xhtml2pdf import pisa
 
+
 @login_required
+@payment_required
 def home(request):
     user_invoices = Invoice.objects.filter(user=request.user)
     return render(request, 'home.html', {'invoices': user_invoices, 'username': request.user.username})
@@ -58,6 +60,7 @@ def logout_view(request):
 
 
 @login_required
+@payment_required
 def download_pdf(request, invoice_id):
     invoice = Invoice.objects.get(id=invoice_id)
     html = render_to_string('invoice_template.html', {'invoice': invoice})
@@ -84,14 +87,6 @@ def make_payment(request, invoice_id, payment_link_id):
     
     else:
         return render(request, 'payment_expired.html')
-    
-
-@login_required
-def create_invoice(request):
-    user = request.user
-    product = Product.objects.get(pk=1)
-    new_invoice = Invoice.objects.create(user=user, product=product)
-    return redirect('/')
 
 
 @login_required

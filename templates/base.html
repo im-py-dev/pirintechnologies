@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pirint Technologies{% endblock %}</title>
+    <!-- Add your CSS and other meta tags here -->
+    <style>
+        table {
+            width: 80%;
+            margin-left: 10px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to our website!</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                <li><a href="{% url 'login' %}">Log In</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
+            </ul>
+        </nav>
+        <!-- Add your header content here -->
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Content of child templates will be placed here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Add your footer content here -->
+    </footer>
+</body>
+</html>
