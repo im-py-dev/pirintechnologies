@@ -50,7 +50,7 @@
 
                             <div class="form__group2 form__group3">
                                 <label for="country" class="Label__formGroup">Country</label>
-                                <select id="id_country" name="country" class="form-select input__formGroup" required>
+                                <select id="country" name="country" class="form-select input__formGroup" required>
                                     {% for country_code, country_name in form.fields.country.choices %}
                                         <option value="{{ country_code }}">{{ country_name }}</option>
                                     {% endfor %}
