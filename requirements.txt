@@ -1,0 +1,7 @@
+django
+django-countries
+xhtml2pdf
+
+reportlab
+celery
+redis

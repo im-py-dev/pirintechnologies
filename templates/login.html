@@ -1,16 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Login - Pirint Technologies{% endblock %}
+
+{% block content %}
+<main class="container__main-page main__content">
+    <div class="spacer__container">
+        <h1 class="pageHeading__h1">Log In to pirintechnologies</h1>
+        <div class="form__container">
+            <div class="container__content-form">
+                <div class="flex__style col__style login-form__style">
+                    <form method="post" class="form__base">
+                        {% csrf_token %}
+                        <legend class="screenRead__style">Log in</legend>
+                        <div class="form__group1">
+                            <div class="form__group2 form__group3">
+                                <label for="username" class="Label__formGroup">Username</label>
+                                <input type="text" name="username" id="username" class="input__formGroup" value="">
+                            </div>
+                            <div class="form__group2 form__group3">
+                                <label for="password" class="Label__formGroup">Password</label>
+                                <input type="password" name="password" id="password"
+                                    class="input__formGroup" value="">
+                            </div>
+                        </div>
+                        <div class="padBottom__IfNotEmpty"></div>
+                        <div class="container__forgot">
+                            <a class="forgot__style" href="#">I forgot my
+                                password</a>
+                        </div>
+                        <button class="basic__button btn__lg btn__royalblue btn__xlarge btn__submit"
+                            id="user_submit">Log in</button>
+                    </form>
+                </div>
+                <!-- <div class="flex__style col__style">
+                    <div>
+                        <h2 class="heading__2">Log In with Another Account</h2>
+                        <ul class="btnContainer__social">
+                            <li class="btnContainer__ListItem">
+                                <a class="basic__button btn__x-sm btn__red btn__social" href="#">
+                                    <img src="#"
+                                        class="icon__social">
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <a href="/signup/?next=/" class="outLink__register">Not a member yet? <b>Sign up free</b></a>
+    </div>
+</main>
+{% endblock %}

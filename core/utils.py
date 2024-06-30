@@ -1,15 +1,23 @@
+import random
+
 from functools import wraps
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils import timezone
+from .models import CustomUser
+
 from .models import Invoice, Product, Payment
+
+
+with open('english.txt', 'r') as f:
+    words = [word.strip() for word in f.readlines()]
 
 
 def payment_required(function=None, redirect_field_name='next', login_url=None):
     """
     Decorator for views that checks that the user's invoice is paid and its end_date not finished yet,
-    redirecting to the payment page if necessary.
+    redirecting to the payment page if not.
     """
     def decorator(view_func):
         @wraps(view_func)
@@ -21,8 +29,7 @@ def payment_required(function=None, redirect_field_name='next', login_url=None):
 
             # not needed but only if we want delete the invoice (user will has no invoices) so this will fix it
             if not latest_invoice:
-                product = Product.objects.get(pk=1)
-                invoice = Invoice.objects.create(user=request.user, product=product)
+                invoice = create_first_invoice(request.user)
                 return redirect(reverse('view_invoice', args=[invoice.id]))
 
             if not latest_invoice.paid:
@@ -32,6 +39,9 @@ def payment_required(function=None, redirect_field_name='next', login_url=None):
                 product = Product.objects.get(pk=1)
                 new_invoice = Invoice.objects.create(user=request.user, product=product)
                 return redirect(reverse('view_invoice', args=[new_invoice.id]))
+            
+            if not latest_invoice.admin_approval:
+                return render(request, 'payment_success.html', {'invoice': latest_invoice})
 
             return view_func(request, *args, **kwargs)
 
@@ -52,3 +62,17 @@ def _redirect_to_login(next, login_url=None, redirect_field_name='next'):
     if redirect_field_name:
         login_url_parts[4] = urlencode({redirect_field_name: next})
     return redirect(''.join(login_url_parts))
+
+
+def generate_random_username():
+    random_words = random.sample(words, 5)
+    new_username = '-'.join(random_words)
+    # Check if the username already exists
+    while CustomUser.objects.filter(username=new_username).exists():
+        return generate_random_username()
+    return new_username
+
+
+def create_first_invoice(user):
+    product = Product.objects.get(pk=1)
+    return Invoice.objects.create(user=user, product=product)

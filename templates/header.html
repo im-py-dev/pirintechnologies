@@ -1,0 +1,59 @@
+<header class="container__header">
+	<nav class="wrapper__header nav__appbar">
+		<div class="content__container content__wrapper">
+			<div class="section__content section__left">
+				<ul class="header__list">
+					<li>
+						<a id="logo" href="#" class="tab__link tab__logo">
+							<img alt="pirintechnologies logo" class="image__header"
+								src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3G5Tuf8E-AUqfmiwdmBB2mGeSPHHShaC9y3mvMtRo&s" />
+						</a>
+					</li>
+				</ul>
+				<ul class="header__list desktop__view">
+					<li>
+						<a id="#" href="/" class="tab__link">Home</a>
+					</li>
+					
+					<li>
+						<a href="/invoices/" id="#" class="tab__link">Invoices</a>
+					</li>
+
+					<li>
+						<a href="/login/" id="#" class="tab__link">Login</a>
+					</li>
+
+					<li>
+						<a href="/signup/?next=/" id="#" class="tab__link">Signup</a>
+					</li>
+
+					
+
+				</ul>
+			</div>
+			<div class="section__content section__right">
+				<ul class="header__list desktop__view">
+					<li>
+						<div id="pro-button" class="tab__link">
+							<a data-btn="true" class="basic__button btn__medium btn_purple btn_outline__purple"
+								href="#">Upgrade to Pro</a>
+						</div>
+					</li>
+					<li>
+						{% if username %}
+						<div id="logout" class="tab__link register__btn">
+							<a class="basic__button btn__medium btn_purple" href="/logout">Logout</a>
+						</div>
+						{% else %}
+						<div id="signup" class="tab__link register__btn">
+							<a class="basic__button btn__medium btn_purple" href="/signup/?next=/">Sign up</a>
+						</div>
+						{% endif %}
+						
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>

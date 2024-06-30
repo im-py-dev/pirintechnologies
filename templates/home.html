@@ -3,45 +3,14 @@
 {% block title %}Home - Pirint Technologies{% endblock %}
 
 {% block content %}
-    {% if username %}
-        <p>Hello, {{ username }}!</p>
-    {% else %}
-        <p>You are not logged in.</p>
-    {% endif %}
-        
     <!-- Display user's existing invoices in a table -->
     {% if invoices %}
-        <h2>Your Invoices</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Invoice ID</th>
-                    <th>Amount</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Paid</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for invoice in invoices %}
-                <tr>
-                    <td>{{ invoice.id }}</td>
-                    <td>${{ invoice.amount|floatformat:2 }}</td>
-
-                    <td>{{ invoice.start_date|date:"F j, Y"|default:"/" }}</td>
-                    <td>{{ invoice.end_date|date:"F j, Y"|default:"/" }}</td>
-
-                    <td>{% if invoice.paid %}Paid{% else %}Not Paid{% endif %}</td>
-                    <td>
-                        <a href="{% url 'download_pdf' invoice.id %}"><button>Download PDF</button></a>
-
-                        <a href="{% url 'view_invoice' invoice.id %}"><button>View Invoice</button></a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="container mt-5">
+        <div class="row">
+            <h2 class="col">A page you can't see if you didn't pay</h2>
+        </div>
+    </div>
+  
     {% else %}
         <p>You don't have any invoices yet.</p>
     {% endif %}

@@ -1,16 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
-</head>
-<body>
-    <h2>Signup</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Signup</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Home - Pirint Technologies{% endblock %}
+
+{% block content %}
+
+<main class="container__main-page main__content">
+    <div class="spacer__container">
+        <h1 class="pageHeading__h1">Signup at pirintechnologies</h1>
+        <div class="form__container">
+            <div class="container__content-form">
+                <div class="flex__style col__style login-form__style">
+                    
+                    
+
+
+                    <form method="post" class="form__base">
+                        {% csrf_token %}
+                        <legend class="screenRead__style">Log in</legend>
+                        <div class="form__group1">
+                            <div class="form__group2 form__group3">
+                                <label for="username" class="Label__formGroup">Username</label>
+                                <input
+                                type="text"
+                                class="form-control ps-15 bg-transparent input__formGroup" 
+                                placeholder="Username" 
+                                name="username"
+                                value="{{ generated_username }}"
+                                readonly>
+                            </div>
+                            <div class="form__group2 form__group3">
+                                <label for="password1" class="Label__formGroup">Password</label>
+                                <input
+                                type="password"
+                                class="form-control ps-15 bg-transparent input__formGroup"
+                                 placeholder="Password" 
+                                 name="password1"
+                                 required>
+                            </div>
+
+                            <div class="form__group2 form__group3">
+                                <label for="password2" class="Label__formGroup">Password</label>
+                                <input
+                                type="password"
+                                class="form-control ps-15 bg-transparent input__formGroup"
+                                 placeholder="Retype Password"
+                                  name="password2"
+                                  required>
+                            </div>
+
+                            <div class="form__group2 form__group3">
+                                <label for="country" class="Label__formGroup">Country</label>
+                                <select id="id_country" name="country" class="form-select input__formGroup" required>
+                                    {% for country_code, country_name in form.fields.country.choices %}
+                                        <option value="{{ country_code }}">{{ country_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="padBottom__IfNotEmpty"></div>
+                        <div class="container__forgot">
+                            <a class="forgot__style" href="#">I forgot my
+                                password</a>
+                        </div>
+
+                        <!-- Display form errors -->
+                        {% if form.errors %}
+                            <div class="form-errors mt-2">
+                                        {% for field, errors in form.errors.items %}
+                                        <div class="alert alert-danger">
+                                            <li><strong>{{ field }}:</strong> {{ errors|striptags }}</li>
+                                        </div>
+                                        {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="basic__button btn__lg btn__royalblue btn__xlarge btn__submit"
+                            id="user_submit">Signup</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <a href="/login" class="outLink__register">Already have an account? <b>Log In</b></a>
+    </div>
+</main>
+{% endblock %}

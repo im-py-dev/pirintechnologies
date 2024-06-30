@@ -9,6 +9,7 @@ reportlab = "*"
 xhtml2pdf = "*"
 celery = "*"
 redis = "*"
+django-countries = "*"
 
 [dev-packages]
 

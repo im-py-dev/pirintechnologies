@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Pirint Technologies{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Invoice Details</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Invoice ID:</strong> {{ invoice.id }}</p>
+            <p><strong>User:</strong> {{ invoice.user.username }}</p>
+            <p><strong>Product:</strong> {{ invoice.product.name }}</p>
+            <p><strong>Product Description:</strong> {{ invoice.product.description }}</p>
+            <p><strong>Amount:</strong> ${{ invoice.amount }}</p>
+            <p><strong>Start Date:</strong> {{ invoice.start_date|default:"/" }}</p>
+            <p><strong>End Date:</strong> {{ invoice.end_date|default:"/" }}</p>
+            <p><strong>Status:</strong> {% if invoice.paid %}Paid{% else %}Not Paid{% endif %}</p>
+            <p><strong>Admin Approval:</strong> {% if invoice.admin_approval %}Approved{% else %}Not Yet{% endif %}</p>
+        </div>
+        <div class="col-md-6">
+            <!-- Display payment link information if available -->
+            {% if payment_link %}
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Payment Link</h2>
+                    <p class="card-text"><strong>Payment Link:</strong> {{ payment_link.payment_link }}</p>
+                    <p class="card-text"><strong>Created At:</strong> {{ payment_link.created_at }}</p>
+                    <p class="card-text"><strong>Expiration Date:</strong> {{ payment_link.expiration_date }}</p>
+                    <p class="card-text"><strong>Expired:</strong> {% if payment_link.expired %}Yes{% else %}No{% endif %}</p>
+                    <p class="card-text"><strong>Successful:</strong> {% if payment_link.successful %}Yes{% else %}No{% endif %}</p>
+                </div>
+            </div>
+            {% else %}
+            <p>No payment link available.</p>
+            {% endif %}
+
+            {% if invoice.paid %}
+                <button class="btn btn-secondary" disabled>Already Paid</button>
+            {% else %}
+                {% if payment_link.expired %}
+                    <a href="{% url 'create_payment' invoice.id %}" class="btn btn-primary">Generate new link</a>
+                {% else %}
+                    <a href="{% url 'make_payment' invoice.id payment_link.id %}" class="btn btn-success">Make Payment</a>
+                {% endif %}
+            {% endif %}
+            <a href="{% url 'home' %}" classbb="btn btn-info">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
